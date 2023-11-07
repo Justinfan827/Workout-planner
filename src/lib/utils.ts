@@ -103,7 +103,15 @@ export function formatISO8601Date(date: dayjs.Dayjs, format: string) {
   return date.utc().format(format)
 }
 
-// https://supabase.com/docs/guides/auth#redirect-urls-and-wildcards
+/**
+  * getSiteURL attempts to determine the site url based on the environment.
+  * NEXT_PUBLIC_SITE_URL needs to be set in the vercel production environment.
+  * NEXT_PUBLIC_VERCEL_BRANCH_URL is automatically set by vercel in preview environments.
+  *
+  * We mainly need to be smart about this for the auth redirect urls.
+  * Make sure to properly set the auth callback url in the supabase project:
+  * https://supabase.com/docs/guides/auth#redirect-urls-and-wildcards
+  */
 export function getSiteURL() {
   // https://vercel.com/docs/concepts/projects/environment-variables/system-environment-variables
   let url =
@@ -112,7 +120,6 @@ export function getSiteURL() {
     // TODO: handle preview urls.
     // Unfortunately I don't know of a good way to determine whether
     // we're in a Vercel preview deployment or not.
-    // process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
     'http://localhost:3000/'
   // Make sure to include `https://` when not localhost.
   url = url.includes('http') ? url : `https://${url}`

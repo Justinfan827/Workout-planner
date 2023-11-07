@@ -1,10 +1,10 @@
 import { ErrorBase, ErrorOptions } from '@/lib/errorBase'
 import { PostgrestError } from '@supabase/supabase-js'
 
-type DashboardAuthErrorClass = 'DashboardAuthError'
+type ClientAuthErrorClass = 'ClientAuthError'
 type DBErrorClass = 'DBError'
 
-export class DashboardAuthError extends ErrorBase<DashboardAuthErrorClass> {
+export class ClientAuthError extends ErrorBase<ClientAuthErrorClass> {
   constructor({
     message,
     options,
@@ -14,7 +14,7 @@ export class DashboardAuthError extends ErrorBase<DashboardAuthErrorClass> {
   }) {
     super({
       message,
-      name: 'DashboardAuthError',
+      name: 'ClientAuthError',
       ...options,
     })
   }

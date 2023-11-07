@@ -3,8 +3,10 @@
 
 import { Session } from '@supabase/supabase-js'
 import { DBClient } from './types'
-import { isAdmin } from './utils'
 
+/*
+ * fetch all users for a given merchant
+ */
 export async function getMerchantUsers(supabase: DBClient, session: Session) {
   const fetchUserMerchants = async (merchantUUID: string) => {
     const { data: merchantUsers, error: merchantUsersError } = await supabase
@@ -17,21 +19,6 @@ export async function getMerchantUsers(supabase: DBClient, session: Session) {
     }
 
     return { data: merchantUsers, error: null }
-  }
-  if (isAdmin(session)) {
-    const { data, error } = await supabase
-      .from('superadmin_merchants')
-      .select('*')
-      .eq('user_uuid', session.user?.id)
-      .single()
-    if (error) {
-      return { data: null, error }
-    }
-
-    if (!data) {
-      return { data: null, error: new Error('no rows found') }
-    }
-    return fetchUserMerchants(data.merchant_uuid)
   }
   const { data, error } = await supabase
     .from('user_merchants')
@@ -48,10 +35,7 @@ export async function getMerchantUsers(supabase: DBClient, session: Session) {
   return fetchUserMerchants(data.merchant_uuid)
 }
 
-export async function getAllUsers(supabase: DBClient, session: Session) {
-  if (!isAdmin(session)) {
-    return { data: null, error: new Error('Not a superadmin') }
-  }
+export async function getAllUsers(supabase: DBClient) {
   const { data: users, error: usersErr } = await supabase
     .from('users')
     .select('*')

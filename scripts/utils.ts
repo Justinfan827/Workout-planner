@@ -13,7 +13,9 @@ export function requireEnvVars(...envVars: (keyof NodeJS.ProcessEnv)[]) {
 }
 
 export const infoLog = (...args: string[]) => console.log(chalk.yellow(...args))
+
 export const successLog = (...args: string[]) =>
   console.log(chalk.blue.bold(...args))
+  
 export const errorLog = (err: string) =>
   console.log(logSymbols.error, chalk.red.bold(err))

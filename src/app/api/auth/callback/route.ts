@@ -2,7 +2,7 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-import { DashboardAuthError } from '@/errors/errors'
+import { ClientAuthError } from '@/errors/errors'
 import { AuthErrorCodeInvalidCodeExchange } from '@/lib/supabase/constants'
 import type { Database } from '@/lib/supabase/database.types'
 import { getError } from '@/lib/utils'
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       `${requestUrl.origin}/signin?` + requestUrl.searchParams
     const errorDescription = requestUrl.searchParams.get('error_description')
     const errorCode = requestUrl.searchParams.get('error_code')
-    Sentry.captureException(new DashboardAuthError({ message: error }), {
+    Sentry.captureException(new ClientAuthError({ message: error }), {
       tags: {
         auth_error_type: errorDescription,
         auth_error_code: errorCode,
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
       requestUrl.searchParams.set('error', errorTitle)
       requestUrl.searchParams.set('error_code', errorCode)
       requestUrl.searchParams.set('error_description', errorDescription)
-      Sentry.captureException(new DashboardAuthError({ message: errorTitle }), {
+      Sentry.captureException(new ClientAuthError({ message: errorTitle }), {
         tags: {
           auth_error_type: errorDescription,
           auth_error_code: errorCode,

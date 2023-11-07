@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Sentry from '@sentry/nextjs'
 import { isAuthApiError } from '@supabase/supabase-js'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
@@ -22,7 +22,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { siteConfig } from '@/config/site'
-import { DashboardAuthError } from '@/errors/errors'
+import { ClientAuthError } from '@/errors/errors'
 import { useSupabase } from '@/lib/supabase/SupabaseProvider'
 import { AuthMessageSignUpNotAllowed } from '@/lib/supabase/constants'
 
@@ -30,7 +30,6 @@ type Inputs = z.infer<typeof authSchema>
 
 export function SignInForm() {
   const { toast } = useToast()
-  const router = useRouter()
   const [isPending, setPending] = useState(false)
   const { supabase } = useSupabase()
   const searchParams = useSearchParams()
@@ -51,22 +50,10 @@ export function SignInForm() {
       }),
     })
     try {
-      if (data.password) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: data.email,
-          password: data.password,
-        })
-
-        if (error) {
-          throw error
-        }
-        router.push('/home')
-        return
-      }
       const { error } = await supabase.auth.signInWithOtp({
         email: data.email,
         options: {
-          shouldCreateUser: false,
+          shouldCreateUser: true,
           emailRedirectTo: authURL,
         },
       })
@@ -82,7 +69,7 @@ export function SignInForm() {
       if (error instanceof Error) {
         if (isAuthApiError(error)) {
           Sentry.captureException(
-            new DashboardAuthError({
+            new ClientAuthError({
               message: error.message,
               options: {
                 annotations: {
@@ -132,19 +119,6 @@ export function SignInForm() {
             </FormItem>
           )}
         />
-        {/* <FormField */}
-        {/*   control={form.control} */}
-        {/*   name="password" */}
-        {/*   render={({ field }) => ( */}
-        {/*     <FormItem> */}
-        {/*       <FormLabel>Password</FormLabel> */}
-        {/*       <FormControl> */}
-        {/*         <PasswordInput placeholder="**********" {...field} /> */}
-        {/*       </FormControl> */}
-        {/*       <FormMessage /> */}
-        {/*     </FormItem> */}
-        {/*   )} */}
-        {/* /> */}
         <Button disabled={isPending}>
           {isPending && (
             <Icons.spinner

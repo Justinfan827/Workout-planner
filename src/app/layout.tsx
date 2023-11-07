@@ -8,6 +8,7 @@ import { Toaster } from '@/components/ui/toaster'
 import SupabaseProvider from '@/lib/supabase/SupabaseProvider'
 import { createServerClient } from '@/lib/supabase/createServerClient'
 import { isDev } from '@/lib/utils'
+import { ModeToggle } from '@/components/ThemeToggle'
 
 export const metadata = {
   title: 'Ansa frontend template',
@@ -39,6 +40,7 @@ export default async function RootLayout({
         >
           <SupabaseProvider session={session}>
             <QueryProvider>
+              <ModeToggle/>
               {children}
               <Toaster />
             </QueryProvider>
