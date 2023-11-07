@@ -1,0 +1,3 @@
+# we don't need to build this folder unless we eventually
+# need to serve emails from the dashboard itself.
+react-email/
