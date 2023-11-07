@@ -2,7 +2,6 @@ import 'server-only'
 
 import { Session } from '@supabase/supabase-js'
 import { DBClient, DbResult, DbResultOk } from '../types'
-import { isAdmin } from '../utils'
 
 export type UserMerchantResponse = DbResult<typeof getUserMerchantWithKeys>
 export type UserMerchantResponseSuccess = DbResultOk<
@@ -63,4 +62,3 @@ export async function getCurrentUserMerchant(
 
   return { data, error }
 }
-

@@ -104,14 +104,14 @@ export function formatISO8601Date(date: dayjs.Dayjs, format: string) {
 }
 
 /**
-  * getSiteURL attempts to determine the site url based on the environment.
-  * NEXT_PUBLIC_SITE_URL needs to be set in the vercel production environment.
-  * NEXT_PUBLIC_VERCEL_BRANCH_URL is automatically set by vercel in preview environments.
-  *
-  * We mainly need to be smart about this for the auth redirect urls.
-  * Make sure to properly set the auth callback url in the supabase project:
-  * https://supabase.com/docs/guides/auth#redirect-urls-and-wildcards
-  */
+ * getSiteURL attempts to determine the site url based on the environment.
+ * NEXT_PUBLIC_SITE_URL needs to be set in the vercel production environment.
+ * NEXT_PUBLIC_VERCEL_BRANCH_URL is automatically set by vercel in preview environments.
+ *
+ * We mainly need to be smart about this for the auth redirect urls.
+ * Make sure to properly set the auth callback url in the supabase project:
+ * https://supabase.com/docs/guides/auth#redirect-urls-and-wildcards
+ */
 export function getSiteURL() {
   // https://vercel.com/docs/concepts/projects/environment-variables/system-environment-variables
   let url =
