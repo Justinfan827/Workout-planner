@@ -19,10 +19,10 @@ This template supports 3 environments and is set up to work with a branch based 
 `prod-sandbox`
 `prod-live`
 
-The main branch to work off is the `staging` branch. PR's should be opened against staging.
-Merging into `staging` will auto release to Ansa's `staging` environment
-Merging `staging` into `main` will auto release to Ansa's `prod-sandbox` environment.
-There is a github action to manually release to Ansa's `prod-live` environment.
+The primary branch for development is `staging`, and Pull Requests (PRs) should be opened against this branch. 
+Merging changes into `staging` will automatically release to Ansa's `staging` environment. Merging `staging` into 
+`main` will trigger a release to Ansa's `prod-sandbox` environment. Additionally, there is a GitHub Action available
+for manual releases to Ansa's `prod-live` environment.
 
 We use Supabase as our frontend's 'backend as a service' for all things necessary for db / auth.
 We use Vercel to deploy our frontend apps.
