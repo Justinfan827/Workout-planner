@@ -1,64 +1,76 @@
-## Ansa's frontend template
+## Ansa's Frontend Template
 
-This is a frontend template set up with:
+This frontend template includes the following components:
 
-1. Supabase auth with magic emails set up
-2. Auto generated Ansa backend SDK from a swagger file
-3. Auth utilities to authenticate API calls to Ansa's backend given a logged in user.
-4. Supabase migrations set up with some basic tables for storing merchant secret keys
-   and associating them with users
-5. Github actions to deploy to a staging, prod-sandbox, and a prod-live environment.
-6. React-email to iterate and improve on magic link email templates if necessary.
-7. Sentry instrumentation.
+1. **Supabase Authentication with Magic Emails**: This template is configured with Supabase authentication, including Magic Emails for secure login.
+2. **Auto-generated Ansa Backend SDK**: Ansa's backend SDK is automatically generated from a Swagger file.
+3. **Authentication Utilities**: Utilities are provided for authenticating API calls to Ansa's backend when a user is logged in.
+4. **Supabase Migrations**: Basic tables are set up for storing merchant secret keys and associating them with users. Supabase migrations handle the database schema.
+5. **GitHub Actions for Deployment**: GitHub Actions are in place for deploying to staging, prod-sandbox, and prod-live environments.
+6. **React-email**: We can use React-email to create and enhance magic link email templates as needed.
+7. **Sentry Instrumentation**: Sentry is used for monitoring and reporting errors.
 
 ## Project Setup
 
-This template supports 3 environments and is set up to work with a branch based workflow.
+This template supports three environments:
 
-`staging`
-`prod-sandbox`
-`prod-live`
+- `staging`
+- `prod-sandbox`
+- `prod-live`
 
-The primary branch for development is `staging`, and Pull Requests (PRs) should be opened against this branch. 
-Merging changes into `staging` will automatically release to Ansa's `staging` environment. Merging `staging` into 
-`main` will trigger a release to Ansa's `prod-sandbox` environment. Additionally, there is a GitHub Action available
-for manual releases to Ansa's `prod-live` environment.
+The primary branch for development is `staging`, and Pull Requests (PRs) should be opened against this branch. Merging changes
+into `staging` will automatically release to Ansa's `staging` environment. Merging `staging` into `main` will trigger a release
+to Ansa's `prod-sandbox` environment. Additionally, there is a GitHub Action available for manual releases to Ansa's `prod-live` environment.
 
-We use Supabase as our frontend's 'backend as a service' for all things necessary for db / auth.
-We use Vercel to deploy our frontend apps.
-We use NextJS as our framework for React.
-We use Sentry to monitor errors.
+### Tools and Services
 
-Take a look at our [Ansa dashboard](https://github.com/GetAnsa/ansa-dashboard) as an example for how things
-are set up if you get stuck.
+- **Supabase**: Supabase is used as the "backend as a service" for database and authentication needs.
+- **Vercel**: Vercel is the platform used for deploying frontend applications.
+- **Next.js**: Next.js is the chosen framework for developing React applications.
+- **Sentry**: Sentry is employed for error monitoring and reporting.
 
-1. Set up supabase:
-   - Create a supabase separate project for all 3 environments.
-   - Update the site URL / redirect URL ([Dashboard example](https://supabase.com/dashboard/project/zqktqjoqwgxpszfvrwfm/auth/url-configuration))
-   - Customize magic link template if you wish: ([Dashboard example](https://supabase.com/dashboard/project/zqktqjoqwgxpszfvrwfm/auth/templates))
-2. Set up Vercel:
-   - Create 2 projects: one for `prod-live` and another for `staging` and `prod-sandbox`.
-     We do this since Vercel only supports a `preview` and `production` environment for each project.
-3. Set up sentry:
-   - Create a new sentry project.
-4. Update repo github secrets so that GH actions can run.
-5. Populate the appropriate env vars in the different Vercel project / environments.
+For a practical example of how these components are set up, refer to the [Ansa dashboard project](https://github.com/GetAnsa/ansa-dashboard).
 
-Again, take a look at the Ansa dashboard project as an example for how to set up / where to grab these env vars.
+### Setup Instructions
 
-Github secrets:
+1. **Set up Supabase**:
 
-- `PROD_LIVE_SUPABASE_DB_PASSWORD`: Supabase prod-live database password
-- `PROD_LIVE_SUPABASE_PROJECT_ID`: Supabase prod-live project id
-- `PROD_LIVE_VERCEL_PROJECT_ID`: Vercel prod-live project id
-- `PROD_SANDBOX_SUPABASE_DB_PASSWORD`: Supabase prod-sandbox database password
-- `PROD_SANDBOX_SUPABASE_PROJECT_ID`: Supabase prod-sandbox project id
-- `PROD_SANDBOX_VERCEL_PROJECT_ID` Vercel non prod-live project id from `.vercel/project.json`
-- `STAGING_SUPABASE_DB_PASSWORD`: Supabase staging project database password (get from supabase GUI)
-- `STAGING_SUPABASE_PROJECT_ID`: Supabase staging project id
-- `SUPABASE_ACCESS_TOKEN`: supabase access token found [here](https://supabase.com/dashboard/account/tokens)
-- `VERCEL_ORG_ID`: the id of the vercel org from `.vercel/project.json`. See dashboard as an example.
-- `VERCEL_TOKEN`: a vercel access token created [ here ](https://vercel.com/account/tokens)
+   - Create separate Supabase projects for each of the three environments.
+   - Update the site URL and redirect URL (example in the [Supabase Dashboard](https://supabase.com/dashboard/project/zqktqjoqwgxpszfvrwfm/auth/url-configuration)).
+   - Customize the magic link template if desired (example in the [Supabase Dashboard](https://supabase.com/dashboard/project/zqktqjoqwgxpszfvrwfm/auth/templates)).
+
+2. **Set up Vercel**:
+
+   - Create two Vercel projects: one for `prod-live` and another for `staging` and `prod-sandbox`.
+     This is done because Vercel only supports a "preview" and "production" environment for each project.
+   - Set up a `staging` in Vercel in the non `prod-live` project ([more info](https://vercel.com/guides/set-up-a-staging-environment-on-vercel))
+
+3. **Set up Sentry**:
+
+   - Create a new Sentry project.
+
+4. **Update GitHub Secrets**:
+
+   - Populate GitHub secrets with the necessary credentials and keys for GitHub Actions to run successfully.
+
+5. **Configure Environment Variables**:
+   - Populate the appropriate environment variables in the different Vercel projects and environments.
+
+Ensure you follow the Ansa dashboard project's example for the setup and location of these environment variables.
+
+### GitHub Secrets
+
+- `PROD_LIVE_SUPABASE_DB_PASSWORD`
+- `PROD_LIVE_SUPABASE_PROJECT_ID`
+- `PROD_LIVE_VERCEL_PROJECT_ID`
+- `PROD_SANDBOX_SUPABASE_DB_PASSWORD`
+- `PROD_SANDBOX_SUPABASE_PROJECT_ID`
+- `PROD_SANDBOX_VERCEL_PROJECT_ID` (from `.vercel/project.json` after you run `vercel pull --yes --environment=preview --git-branch staging`)
+- `STAGING_SUPABASE_DB_PASSWORD`
+- `STAGING_SUPABASE_PROJECT_ID`
+- `SUPABASE_ACCESS_TOKEN` (found [here](https://supabase.com/dashboard/account/tokens))
+- `VERCEL_ORG_ID` (from `.vercel/project.json` after you run `vercel pull --yes --environment=preview --git-branch staging`)
+- `VERCEL_TOKEN` (created [here](https://vercel.com/account/tokens))
 
 ## Setup local dev
 
