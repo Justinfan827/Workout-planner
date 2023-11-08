@@ -8,7 +8,7 @@ This is a frontend template set up with:
 4. Supabase migrations set up with some basic tables for storing merchant secret keys.
 5. Github actions to deploy to a staging, prod-sandbox, and a prod-live environment.
 6. React-email to iterate and improve on magic link emails if necessary.
-7. Sentry instrumentation
+7. Sentry instrumentation.
 
 Read more here in this notion doc: []()
 
