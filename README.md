@@ -47,17 +47,18 @@ are set up if you get stuck.
 Again, take a look at the Ansa dashboard project as an example for how to set up / where to grab these env vars.
 
 Github secrets:
-`PROD_LIVE_SUPABASE_DB_PASSWORD`: Supabase prod-live database password
-`PROD_LIVE_SUPABASE_PROJECT_ID`: Supabase prod-live project id
-`PROD_LIVE_VERCEL_PROJECT_ID`: Vercel prod-live project id
-`PROD_SANDBOX_SUPABASE_DB_PASSWORD`: Supabase prod-sandbox database password
-`PROD_SANDBOX_SUPABASE_PROJECT_ID`: Supabase prod-sandbox project id
-`PROD_SANDBOX_VERCEL_PROJECT_ID` Vercel non prod-live project id from `.vercel/project.json`
-`STAGING_SUPABASE_DB_PASSWORD`: Supabase staging project database password (get from supabase GUI)
-`STAGING_SUPABASE_PROJECT_ID`: Supabase staging project id
-`SUPABASE_ACCESS_TOKEN`: supabase access token found [here](https://supabase.com/dashboard/account/tokens)
-`VERCEL_ORG_ID`: the id of the vercel org from `.vercel/project.json`. See dashboard as an example.
-`VERCEL_TOKEN`: a vercel access token created [ here ](https://vercel.com/account/tokens)
+
+- `PROD_LIVE_SUPABASE_DB_PASSWORD`: Supabase prod-live database password
+- `PROD_LIVE_SUPABASE_PROJECT_ID`: Supabase prod-live project id
+- `PROD_LIVE_VERCEL_PROJECT_ID`: Vercel prod-live project id
+- `PROD_SANDBOX_SUPABASE_DB_PASSWORD`: Supabase prod-sandbox database password
+- `PROD_SANDBOX_SUPABASE_PROJECT_ID`: Supabase prod-sandbox project id
+- `PROD_SANDBOX_VERCEL_PROJECT_ID` Vercel non prod-live project id from `.vercel/project.json`
+- `STAGING_SUPABASE_DB_PASSWORD`: Supabase staging project database password (get from supabase GUI)
+- `STAGING_SUPABASE_PROJECT_ID`: Supabase staging project id
+- `SUPABASE_ACCESS_TOKEN`: supabase access token found [here](https://supabase.com/dashboard/account/tokens)
+- `VERCEL_ORG_ID`: the id of the vercel org from `.vercel/project.json`. See dashboard as an example.
+- `VERCEL_TOKEN`: a vercel access token created [ here ](https://vercel.com/account/tokens)
 
 ## Setup local dev
 
@@ -96,7 +97,7 @@ Github secrets:
 
     > \*Note: if you run into: `authorization failed for the access token...` it means that you haven't been added to the project correctly. Make sure that you created an access token + you can view the ansa team in the supabase dashboard\*
 
-    *MAKE SURE* to link to the `staging` supabase project! Otherwise on merge to `staging` branch, you'll apply migrations to the wrong env.
+    _MAKE SURE_ to link to the `staging` supabase project! Otherwise on merge to `staging` branch, you'll apply migrations to the wrong env.
 
 4.  Copy `.env.example` into a new file `.env.local` and populate these env vars:
 
