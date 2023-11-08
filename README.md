@@ -5,12 +5,59 @@ This is a frontend template set up with:
 1. Supabase auth with magic emails set up
 2. Auto generated Ansa backend SDK from a swagger file
 3. Auth utilities to authenticate API calls to Ansa's backend given a logged in user.
-4. Supabase migrations set up with some basic tables for storing merchant secret keys.
+4. Supabase migrations set up with some basic tables for storing merchant secret keys
+   and associating them with users
 5. Github actions to deploy to a staging, prod-sandbox, and a prod-live environment.
-6. React-email to iterate and improve on magic link emails if necessary.
+6. React-email to iterate and improve on magic link email templates if necessary.
 7. Sentry instrumentation.
 
-Read more here in this notion doc: []()
+## Project Setup
+
+This template supports 3 environments and is set up to work with a branch based workflow.
+
+`staging`
+`prod-sandbox`
+`prod-live`
+
+The main branch to work off is the `staging` branch. PR's should be opened against staging.
+Merging into `staging` will auto release to Ansa's `staging` environment
+Merging `staging` into `main` will auto release to Ansa's `prod-sandbox` environment.
+There is a github action to manually release to Ansa's `prod-live` environment.
+
+We use Supabase as our frontend's 'backend as a service' for all things necessary for db / auth.
+We use Vercel to deploy our frontend apps.
+We use NextJS as our framework for React.
+We use Sentry to monitor errors.
+
+Take a look at our [Ansa dashboard](https://github.com/GetAnsa/ansa-dashboard) as an example for how things
+are set up if you get stuck.
+
+1. Set up supabase:
+   - Create a supabase separate project for all 3 environments.
+   - Update the site URL / redirect URL ([Dashboard example](https://supabase.com/dashboard/project/zqktqjoqwgxpszfvrwfm/auth/url-configuration))
+   - Customize magic link template if you wish: ([Dashboard example](https://supabase.com/dashboard/project/zqktqjoqwgxpszfvrwfm/auth/templates))
+2. Set up Vercel:
+   - Create 2 projects: one for `prod-live` and another for `staging` and `prod-sandbox`.
+     We do this since Vercel only supports a `preview` and `production` environment for each project.
+3. Set up sentry:
+   - Create a new sentry project.
+4. Update repo github secrets so that GH actions can run.
+5. Populate the appropriate env vars in the different Vercel project / environments.
+
+Again, take a look at the Ansa dashboard project as an example for how to set up / where to grab these env vars.
+
+Github secrets:
+`PROD_LIVE_SUPABASE_DB_PASSWORD`: Supabase prod-live database password
+`PROD_LIVE_SUPABASE_PROJECT_ID`: Supabase prod-live project id
+`PROD_LIVE_VERCEL_PROJECT_ID`: Vercel prod-live project id
+`PROD_SANDBOX_SUPABASE_DB_PASSWORD`: Supabase prod-sandbox database password
+`PROD_SANDBOX_SUPABASE_PROJECT_ID`: Supabase prod-sandbox project id
+`PROD_SANDBOX_VERCEL_PROJECT_ID` Vercel non prod-live project id from `.vercel/project.json`
+`STAGING_SUPABASE_DB_PASSWORD`: Supabase staging project database password (get from supabase GUI)
+`STAGING_SUPABASE_PROJECT_ID`: Supabase staging project id
+`SUPABASE_ACCESS_TOKEN`: supabase access token found [here](https://supabase.com/dashboard/account/tokens)
+`VERCEL_ORG_ID`: the id of the vercel org from `.vercel/project.json`. See dashboard as an example.
+`VERCEL_TOKEN`: a vercel access token created [ here ](https://vercel.com/account/tokens)
 
 ## Setup local dev
 
@@ -20,10 +67,10 @@ Read more here in this notion doc: []()
     up your vercel project, here are the answers:
 
     ```
-    ? Set up “~/code/ansa-dashboard”? [Y/n] y
+    ? Set up “~/code/ansa-template”? [Y/n] y
     ? Which scope should contain your project? Ansa
     ? Link to existing project? [y/N] y
-    ? What’s the name of your existing project? ansa-dashboard-prod-sandbox
+    ? What’s the name of your existing project? <VERCEL PROD SANDBOX PROJECT NAME>
     ```
 
     > _Note: if you're not prompted, run `vercel login` with the `eng-logins@getansa.com` email.
@@ -39,7 +86,7 @@ Read more here in this notion doc: []()
     ```
     supabase login # login to supabase with your OWN EMAIL (you'll be prompted to create an access token.)
     supabase start # start supabase (requires docker to be running)
-    supabase link --project-ref zqktqjoqwgxpszfvrwfm --password '<DB password from 1password (ansa-dashboard-staging)>'
+    supabase link --project-ref <SUPABASE STAGING PROJECT REF> --password '<DB PASSWORD>'
     supabase db reset # apply migrations
     supabase status # check that everything is up and running
 
@@ -48,6 +95,8 @@ Read more here in this notion doc: []()
     ```
 
     > \*Note: if you run into: `authorization failed for the access token...` it means that you haven't been added to the project correctly. Make sure that you created an access token + you can view the ansa team in the supabase dashboard\*
+
+    *MAKE SURE* to link to the `staging` supabase project! Otherwise on merge to `staging` branch, you'll apply migrations to the wrong env.
 
 4.  Copy `.env.example` into a new file `.env.local` and populate these env vars:
 
@@ -78,5 +127,5 @@ Read more here in this notion doc: []()
 
 ## Auth
 
-1. Configure redirect URLs via: https://supabase.com/dashboard/project/zqktqjoqwgxpszfvrwfm/auth/url-configuration
+1. Configure redirect URLs via: https://supabase.com/dashboard/project/<PROJECT_ID>/auth/url-configuration
 2. More info at [supabase docs](https://supabase.com/docs/guides/auth#redirect-urls-and-wildcards)
