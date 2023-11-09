@@ -119,11 +119,13 @@ Ensure you follow the Ansa dashboard project's example for the setup and locatio
 - `ANSA_ADMIN_API_KEY`= get from 1password (Ansa Dev/Staging API Key)
 - `ANSA_HOST`= The host ansa backend is running on e.g. `http://127.0.0.1:8080/v1` (DON'T FORGET THE `/v1` base path)
 
-5. Start your ansa backend locally
-6. Run `nvm use` to make sure you have the right version of node.
-   Start the ansa dashboard frontend with `yarn dev`.
+5. Run Ansa backend locally
 
-7. Go to `localhost:3000` and sign in with the email you used in the `dashctl` command above! Check your dummy inbox at:
+6. Setup a local merchant Run `yarn dashctl setup-test-merchant -e "<Any fake email>" -n 10`
+
+7. Run `nvm use` to make sure you have the right version of node. Start the ansa dashboard frontend with `yarn dev`.
+
+8. Go to `localhost:3000` and sign in with the email you used in the `dashctl` command above! Check your dummy inbox at:
    `http://localhost:64324/monitor` to sign in to the dashboard.
 
 ## Dev tips
