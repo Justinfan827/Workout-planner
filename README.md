@@ -143,4 +143,4 @@ Ensure you follow the Ansa dashboard project's example for the setup and locatio
 ## Auth
 
 1. Configure redirect URLs via: https://supabase.com/dashboard/project/<PROJECT_ID>/auth/url-configuration
-2. More info at [supabase docs](https://supabase.com/docs/guides/auth#redirect-urls-and-wildcards)
+   - More info at [supabase docs](https://supabase.com/docs/guides/auth#redirect-urls-and-wildcards)
