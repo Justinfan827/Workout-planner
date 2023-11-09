@@ -57,24 +57,27 @@ export interface Database {
       }
       user_merchants: {
         Row: {
-          merchant_secret_key: string
           merchant_uuid: string
           user_uuid: string
           uuid: string
         }
         Insert: {
-          merchant_secret_key: string
           merchant_uuid: string
           user_uuid: string
-          uuid: string
+          uuid?: string
         }
         Update: {
-          merchant_secret_key?: string
           merchant_uuid?: string
           user_uuid?: string
           uuid?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "user_merchants_merchant_uuid_fkey"
+            columns: ["merchant_uuid"]
+            referencedRelation: "merchants"
+            referencedColumns: ["uuid"]
+          },
           {
             foreignKeyName: "user_merchants_user_uuid_fkey"
             columns: ["user_uuid"]
@@ -86,21 +89,21 @@ export interface Database {
       users: {
         Row: {
           created_at: string
-          email: string | null
+          email: string
           first_name: string | null
           last_name: string | null
           uuid: string
         }
         Insert: {
           created_at?: string
-          email?: string | null
+          email: string
           first_name?: string | null
           last_name?: string | null
-          uuid: string
+          uuid?: string
         }
         Update: {
           created_at?: string
-          email?: string | null
+          email?: string
           first_name?: string | null
           last_name?: string | null
           uuid?: string

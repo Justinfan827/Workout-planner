@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
   const error = requestUrl.searchParams.get('error')
   if (error) {
     const redirectErrorURL =
-      `${requestUrl.origin}/signin?` + requestUrl.searchParams
+      `${requestUrl.origin}/?` + requestUrl.searchParams
     const errorDescription = requestUrl.searchParams.get('error_description')
     const errorCode = requestUrl.searchParams.get('error_code')
     Sentry.captureException(new ClientAuthError({ message: error }), {
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
       })
 
       const redirectErrorURL =
-        `${requestUrl.origin}/signin?` + requestUrl.searchParams
+        `${requestUrl.origin}/?` + requestUrl.searchParams
 
       return NextResponse.redirect(redirectErrorURL)
     }
@@ -78,5 +78,5 @@ export async function GET(request: NextRequest) {
   }
   // URL to redirect to after sign in process completes
   // TODO: redirect to home page when we have that built out
-  return NextResponse.redirect(`${requestUrl.origin}/home/customers?limit=20`)
+  return NextResponse.redirect(`${requestUrl.origin}/home`)
 }

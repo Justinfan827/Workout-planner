@@ -24,7 +24,7 @@ interface ServerAuthOptions {
 export const serverRedirectIfUnauthorized = async (
   opts: ServerAuthOptions = {
     queryParams: new URLSearchParams(),
-    redirectTo: '/signin',
+    redirectTo: '/',
   }
 ) => {
   const supabase = createServerClient()

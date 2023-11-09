@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { AuthErrorCodeInvalidCodeExchange } from '@/lib/supabase/constants'
+import { serverRedirectIfAuthorized } from '@/lib/supabase/serverComponentUtils'
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -27,6 +28,7 @@ export default async function SignInPage({
 }: {
   searchParams?: ErrorParams
 }) {
+  await serverRedirectIfAuthorized('/home')
   const signInError = searchParams?.error
   const signInErrMessage = () => {
     switch (signInError) {
