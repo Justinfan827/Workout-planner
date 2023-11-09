@@ -21,13 +21,13 @@ export async function getCustomerPaymentMethods(
   if (error) {
     return { error, data: null }
   }
-  return getCustomerPaymentMethodsInternal(
+  return getCustomerPaymentMethodsNoUserAuth(
     customerId,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-async function getCustomerPaymentMethodsInternal(
+async function getCustomerPaymentMethodsNoUserAuth(
   customerId: string,
   merchantSecretKey: string
 ) {

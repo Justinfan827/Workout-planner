@@ -29,14 +29,14 @@ export async function getMerchantInsights(
     return { error, data: null }
   }
 
-  return getMerchantInsightsInternal(
+  return getMerchantInsightsNoUserAuth(
     data.merchantInfo.merchantSecretKey,
     data.merchantInfo.merchantId,
     opts
   )
 }
 
-export async function getMerchantInsightsInternal(
+export async function getMerchantInsightsNoUserAuth(
   merchantSecretKey: string,
   merchantId: string,
   nextOpts: { nextRequestConfig: NextFetchRequestConfig }

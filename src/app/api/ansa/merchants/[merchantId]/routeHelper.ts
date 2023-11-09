@@ -20,7 +20,7 @@ export async function getMerchantDetails(
   if (error) {
     return { error, data: null }
   }
-  return getMerchantDetailsInternal(
+  return getMerchantDetailsNoUserAuth(
     data.merchantInfo.merchantSecretKey,
     data.merchantInfo.merchantId
   )
@@ -28,7 +28,7 @@ export async function getMerchantDetails(
 
 // TODO: sync ansa merchants with supabase merchants if ansa merchants
 // get deleted
-export async function getMerchantDetailsInternal(
+export async function getMerchantDetailsNoUserAuth(
   ansaSecretKey: string,
   merchantId: string
 ) {
@@ -119,7 +119,7 @@ function parseAnsaMerchant(merchant: components['schemas']['merchant']) {
   }
 }
 
-export async function updateMerchantInternal(
+export async function updateMerchantNoUserAuth(
   ansaSecretKey: string,
   merchantId: string,
   body: UpdateMerchantBody

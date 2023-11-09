@@ -21,13 +21,13 @@ export async function getSingleAnsaCustomer(
   if (error) {
     return { error, data: null }
   }
-  return getSingleAnsaCustomerInternal(
+  return getSingleAnsaCustomerNoUserAuth(
     customerId,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-async function getSingleAnsaCustomerInternal(
+async function getSingleAnsaCustomerNoUserAuth(
   customerId: string,
   merchantSecretKey: string
 ) {

@@ -20,13 +20,13 @@ export async function getSingleTransaction(
   if (error) {
     return { error, data: null }
   }
-  return getSingleTransactionInternal(
+  return getSingleTransactionNoUserAuth(
     transactionId,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-export async function getSingleTransactionInternal(
+export async function getSingleTransactionNoUserAuth(
   transactionId: string,
   merchantSecretKey: string
 ) {

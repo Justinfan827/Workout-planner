@@ -18,13 +18,13 @@ export async function getCustomerAutoReloadSettings(
   if (error) {
     return { error, data: null }
   }
-  return getCustomerAutoReloadSettingsInternal(
+  return getCustomerAutoReloadSettingsNoUserAuth(
     customerId,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-async function getCustomerAutoReloadSettingsInternal(
+async function getCustomerAutoReloadSettingsNoUserAuth(
   customerId: string,
   merchantSecretKey: string
 ) {
@@ -105,14 +105,14 @@ export async function configureCustomerAutoReloadConfig(
   if (error) {
     return { error, data: null }
   }
-  return configureCustomerAutoReloadConfigInternal(
+  return configureCustomerAutoReloadConfigNoUserAuth(
     customerId,
     payload,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-export async function configureCustomerAutoReloadConfigInternal(
+export async function configureCustomerAutoReloadConfigNoUserAuth(
   customerId: string,
   payload: AutoReloadBody,
   merchantSecretKey: string

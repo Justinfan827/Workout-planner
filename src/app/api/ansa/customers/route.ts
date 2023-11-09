@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
   if (!result.success) {
     return BadRequestResponse()
   }
-  const { data, error } = await getAnsaCustomersInternal(
+  const { data, error } = await getAnsaCustomersNoUserAuth(
     result.data,
     res.data.merchantInfo.merchantSecretKey
   )

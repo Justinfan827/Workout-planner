@@ -21,14 +21,14 @@ export async function getTransactionRefunds(
   if (error) {
     return { error, data: null }
   }
-  return getTransactionRefundsInternal(
+  return getTransactionRefundsNoUserAuth(
     transactionId,
     data.merchantInfo.merchantSecretKey,
     customerId
   )
 }
 
-async function getTransactionRefundsInternal(
+async function getTransactionRefundsNoUserAuth(
   transactionId: string,
   merchantSecretKey: string,
   customerId?: string

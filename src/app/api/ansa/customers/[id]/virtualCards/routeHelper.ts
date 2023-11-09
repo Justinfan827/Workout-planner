@@ -18,13 +18,13 @@ export async function getCustomerVirtualCard(
   if (error) {
     return { error, data: null }
   }
-  return getCustomerVirtualCardInternal(
+  return getCustomerVirtualCardNoUserAuth(
     customerId,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-async function getCustomerVirtualCardInternal(
+async function getCustomerVirtualCardNoUserAuth(
   customerId: string,
   merchantSecretKey: string
 ) {

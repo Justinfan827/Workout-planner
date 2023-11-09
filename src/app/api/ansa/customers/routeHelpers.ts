@@ -27,10 +27,14 @@ export async function getAnsaCustomers(
   if (error) {
     return { error, data: null }
   }
-  return getAnsaCustomersInternal(query, data.merchantInfo.merchantSecretKey)
+  return getAnsaCustomersNoUserAuth(query, data.merchantInfo.merchantSecretKey)
 }
 
-export async function getAnsaCustomersInternal(
+/**
+  * This ...NoUserAuth variant can be used in API route handlers
+  * after the user has already been authenticated.
+  **/
+export async function getAnsaCustomersNoUserAuth(
   query: queryParams,
   merchantSecretKey: string
 ) {

@@ -22,7 +22,7 @@ export async function POST(
   if (!result.success) {
     return BadRequestResponse()
   }
-  const configResponse = await configureCustomerAutoReloadConfigInternal(
+  const configResponse = await configureCustomerAutoReloadConfigNoUserAuth(
     params.id,
     result.data,
     data.merchantInfo.merchantSecretKey

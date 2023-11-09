@@ -25,7 +25,7 @@ export async function PUT(
   if (!result.success) {
     return BadRequestResponse()
   }
-  const { data, error } = await updateMerchantInternal(
+  const { data, error } = await updateMerchantNoUserAuth(
     res.merchantInfo.merchantSecretKey,
     params.merchantId,
     result.data

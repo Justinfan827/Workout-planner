@@ -22,10 +22,10 @@ export async function refundBalance(
   if (error) {
     return { error, data: null }
   }
-  return refundBalanceInternal(payload, data.merchantInfo.merchantSecretKey)
+  return refundBalanceNoUserAuth(payload, data.merchantInfo.merchantSecretKey)
 }
 
-export async function refundBalanceInternal(
+export async function refundBalanceNoUserAuth(
   payload: RefundBody,
   merchantSecretKey: string
 ) {

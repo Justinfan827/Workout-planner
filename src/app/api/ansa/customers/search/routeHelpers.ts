@@ -20,10 +20,10 @@ export async function searchAnsaCustomers(
   if (error) {
     return { error, data: null }
   }
-  return searchAnsaCustomersInternal(query, data.merchantInfo.merchantSecretKey)
+  return searchAnsaCustomersNoUserAuth(query, data.merchantInfo.merchantSecretKey)
 }
 
-export async function searchAnsaCustomersInternal(
+export async function searchAnsaCustomersNoUserAuth(
   query: queryParams,
   merchantSecretKey: string
 ) {

@@ -18,13 +18,13 @@ export async function getTransactionsCount(
   if (error) {
     return { error, data: null }
   }
-  return getTransactionsCountInternal(
+  return getTransactionsCountNoUserAuth(
     query,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-async function getTransactionsCountInternal(
+async function getTransactionsCountNoUserAuth(
   query: queryParams,
   merchantSecretKey: string
 ) {

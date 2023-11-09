@@ -22,13 +22,13 @@ export async function fundCustomerBalance(
   if (error) {
     return { error, data: null }
   }
-  return fundCustomerBalanceInternal(
+  return fundCustomerBalanceNoUserAuth(
     payload,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-export async function fundCustomerBalanceInternal(
+export async function fundCustomerBalanceNoUserAuth(
   payload: FundCustomerBalanceBody,
   merchantSecretKey: string
 ) {

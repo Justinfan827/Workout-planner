@@ -21,10 +21,10 @@ export async function getMerchantTransactions(
   if (error) {
     return { error, data: null }
   }
-  return getMerchantTransactionsInternal(query, data.merchantInfo)
+  return getMerchantTransactionsNoUserAuth(query, data.merchantInfo)
 }
 
-async function getMerchantTransactionsInternal(
+async function getMerchantTransactionsNoUserAuth(
   query: queryParams,
   { merchantSecretKey, merchantId }: AuthResponseData['merchantInfo']
 ) {

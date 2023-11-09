@@ -22,14 +22,14 @@ export async function getCustomerTransactions(
   if (error) {
     return { error, data: null }
   }
-  return getCustomerTransactionsInternal(
+  return getCustomerTransactionsNoUserAuth(
     query,
     customerId,
     data.merchantInfo.merchantSecretKey
   )
 }
 
-export async function getCustomerTransactionsInternal(
+export async function getCustomerTransactionsNoUserAuth(
   query: queryParams,
   customerId: string,
   merchantSecretKey: string

@@ -16,10 +16,10 @@ export async function getAnsaCustomerCount(
   if (error) {
     return { error, data: null }
   }
-  return getAnsaCustomerCountInternal(data.merchantInfo.merchantSecretKey)
+  return getAnsaCustomerCountNoUserAuth(data.merchantInfo.merchantSecretKey)
 }
 
-async function getAnsaCustomerCountInternal(merchantSecretKey: string) {
+async function getAnsaCustomerCountNoUserAuth(merchantSecretKey: string) {
   const ansaClient = createClient<paths>({ baseUrl: process.env.ANSA_HOST })
   // Note: we need to wrap this in a try catch.
   // openapi-fetch throws errors if there is a network issue when making the request.
