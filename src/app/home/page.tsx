@@ -7,7 +7,7 @@ export default async function HomePage() {
   const { supabase, session } = await serverRedirectIfUnauthorized()
 
   const { data, error } = await getCurrentUserMerchant(supabase, session)
-  if (!error) {
+  if (error) {
     return (
       <div className="mx-auto max-w-[700px] space-y-2 p-4">
         <h1 className="text-2xl font-bold">Hello, {session.user.email}!</h1>
@@ -22,10 +22,10 @@ export default async function HomePage() {
   const ansaData = await getAnsaCustomers(supabase)
   return (
     <div className="mx-auto max-w-[700px] space-y-2 p-4">
-      <div className="">
+      <h1 className="text-2xl font-bold">
         Welcome: <span className="font-bold">{session.user.email}!</span> You
         are logged in.
-      </div>
+      </h1>
       <p>I&apos;ve fetched your merchant info from the db:</p>
       <div className="rounded border p-4">
         <pre>{JSON.stringify(data, null, 2)}</pre>
