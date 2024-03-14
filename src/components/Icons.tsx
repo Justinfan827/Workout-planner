@@ -10,6 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronsUpDown,
+  CircleEllipsisIcon,
   Copy,
   DollarSign,
   Eye,
@@ -25,6 +26,7 @@ import {
   LucideTrash2,
   PauseCircle,
   PlusCircle,
+  PlusIcon,
   Undo2,
   UserPlus,
   XCircle,
@@ -57,7 +59,9 @@ export const Icons = {
   trash: LucideTrash2,
   userPlus: UserPlus,
   view: Eye,
+  ellipsisVertical: CircleEllipsisIcon,
   plusCircle: PlusCircle,
+  plus: PlusIcon,
   xCircle: XCircle,
   logo: (props: LucideProps) => (
     <svg
