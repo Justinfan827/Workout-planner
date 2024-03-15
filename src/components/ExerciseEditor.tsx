@@ -31,8 +31,10 @@ import { useToast } from '@/components/ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { NumericFormat, PatternFormat } from 'react-number-format'
 import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
+import { Search } from './search-backend'
 
 const exerciseSchema = z.object({
   id: z.string(),
@@ -42,7 +44,7 @@ const exerciseSchema = z.object({
       id: z.string(),
       weight: z.number(),
       reps: z.number(),
-      rest: z.number(),
+      rest: z.string(),
     })
   ),
   note: z.string(),
@@ -55,6 +57,8 @@ const workoutFormSchema = z.object({
 
 export default function WorkoutEditor() {
   const { toast } = useToast()
+
+  const [selected, setSelected] = useState<string | undefined>()
   // 1. Define your form.
   const form = useForm<z.infer<typeof workoutFormSchema>>({
     resolver: zodResolver(workoutFormSchema),
@@ -63,15 +67,6 @@ export default function WorkoutEditor() {
       exercises: [],
     },
   })
-
-  const [sets, setSets] = useState([
-    {
-      id: uuidv4(),
-      weight: 0,
-      reps: 0,
-      rest: 0,
-    },
-  ])
 
   const {
     fields: exerciseFields,
@@ -93,11 +88,6 @@ export default function WorkoutEditor() {
   const state = form.watch()
   return (
     <div className="m-4 mx-auto max-w-2xl ">
-      <div className="mt-2 rounded-md bg-black py-4">
-        <div className="no-scrollbar mx-auto max-h-[400px] max-w-[450px]  overflow-auto bg-black p-4 text-white">
-          <pre className="text-left">{JSON.stringify(state, null, 2)}</pre>
-        </div>
-      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -117,6 +107,27 @@ export default function WorkoutEditor() {
               </FormItem>
             )}
           />
+          <div>
+            <Search
+              selectedResult={selected}
+              onSelectResult={(val) => {
+                setSelected(val)
+                append({
+                  id: uuidv4(),
+                  name: val,
+                  details: [
+                    {
+                      id: uuidv4(),
+                      weight: 0,
+                      reps: 0,
+                      rest: '',
+                    },
+                  ],
+                  note: '',
+                })
+              }}
+            />
+          </div>
           {/* workout block */}
           {exerciseFields.map((exercise, exerciseIndex) => {
             return (
@@ -170,36 +181,70 @@ export default function WorkoutEditor() {
                   />
                 </div>
                 <div className="mt-4">
-                  <Textarea placeholder="Add a note for this exercise" />
+                  <FormField
+                    control={form.control}
+                    name={`exercises.${exerciseIndex}.note`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="sr-only">Exercise Note</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            {...field}
+                            placeholder="Add a note for this exercise"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
             )
           })}
           {/* end workout block */}
-          <div className="mt-6 flex space-x-4">
-            <Button
-              onClick={() => {
-                append({ id: uuidv4(), name: '', details: [], note: '' })
-              }}
-              type="button"
-              className="flex flex-grow items-center space-x-1 "
-              variant="default"
-            >
-              <Icons.plus className="" />
-              <span>Add Exercise</span>
-            </Button>
-            <Button
-              type="button"
-              className="flex flex-grow items-center space-x-1 "
-              variant="secondary"
-            >
-              <Icons.plus className="" />
-              <span>Add Section</span>
-            </Button>
+          <div className="mt-6 flex flex-col space-x-4 space-y-4">
+            <div className="m-0 flex justify-between space-x-4">
+              <Button
+                onClick={() => {
+                  append({
+                    id: uuidv4(),
+                    name: '',
+                    details: [
+                      {
+                        id: uuidv4(),
+                        weight: 0,
+                        reps: 0,
+                        rest: '',
+                      },
+                    ],
+                    note: '',
+                  })
+                }}
+                type="button"
+                className="flex flex-grow items-center space-x-1 "
+                variant="default"
+              >
+                <Icons.plus className="" />
+                <span>Add Exercise</span>
+              </Button>
+              <Button
+                type="button"
+                className="flex flex-grow items-center space-x-1 "
+                variant="secondary"
+              >
+                <Icons.plus className="" />
+                <span>Add Section</span>
+              </Button>
+            </div>
           </div>
           <Button type="submit">Create Workout</Button>
         </form>
       </Form>
+      <div className="mt-2 rounded-md bg-black py-4">
+        <div className="no-scrollbar max-h-[400px] max-w-[450px]  overflow-auto bg-black p-4 text-white">
+          <pre className="">{JSON.stringify(state, null, 2)}</pre>
+        </div>
+      </div>
     </div>
   )
 }
@@ -216,6 +261,7 @@ function NestedSetInput({
     control,
     name: `exercises[${nestIndex}].details`,
   })
+
   return (
     <div>
       <Table>
@@ -241,7 +287,11 @@ function NestedSetInput({
                       <FormItem>
                         <FormLabel className="sr-only">Workout Name</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <NumericFormat
+                            {...field}
+                            customInput={Input}
+                            allowNegative={false}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -254,9 +304,14 @@ function NestedSetInput({
                     name={`exercises[${nestIndex}].details[${setIndex}].reps`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="sr-only">Workout Name</FormLabel>
+                        <FormLabel className="sr-only">Set reps</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <NumericFormat
+                            decimalScale={0}
+                            {...field}
+                            customInput={Input}
+                            allowNegative={false}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -271,7 +326,13 @@ function NestedSetInput({
                       <FormItem>
                         <FormLabel className="sr-only">Workout Name</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <PatternFormat
+                            {...field}
+                            customInput={Input}
+                            format="##:##"
+                            allowEmptyFormatting
+                            mask="_"
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -298,7 +359,19 @@ function NestedSetInput({
         <Button
           type="button"
           onClick={() => {
-            append({ id: uuidv4(), weight: 0, reps: 0, rest: 0 })
+            console.log('fields', fields)
+            if (fields.length > 0) {
+              const lastField = fields[fields.length - 1]
+              console.log({ lastField })
+              append({
+                id: uuidv4(),
+                weight: lastField.weight,
+                reps: lastField.reps,
+                rest: lastField.rest,
+              })
+            } else {
+              append({ id: uuidv4(), weight: 0, reps: 0, rest: '' })
+            }
           }}
           className="space-x-2 "
           variant="ghost"

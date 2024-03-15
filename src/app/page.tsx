@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator'
 import { SearchFunction } from './search'
 
 import ExerciseEditor from '@/components/ExerciseEditor'
+import { Textarea } from '@/components/ui/textarea'
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -35,7 +36,7 @@ export default async function RootPage({
         >
           <ResizablePanel defaultSize={30}>
             <div className="flex h-[400px] items-start justify-center p-6">
-              <SearchFunction />
+              <Textarea/>
             </div>
           </ResizablePanel>
           <ResizableHandle />

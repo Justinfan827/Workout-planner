@@ -27,12 +27,14 @@ import {
   PauseCircle,
   PlusCircle,
   PlusIcon,
+  Search,
   Undo2,
   UserPlus,
   XCircle,
 } from 'lucide-react'
 
 export const Icons = {
+  search: Search,
   pauseCircle: PauseCircle,
   alertCircle: AlertCircle,
   undo: Undo2,

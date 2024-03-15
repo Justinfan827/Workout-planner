@@ -123,13 +123,16 @@ const exercises = [
   { name: 'EZ Bar Curl', category: 'Arms', equipment: 'EZ Bar' },
   { name: 'Pullover', category: 'Upper Body', equipment: 'Dumbbell' },
 ]
+
 const fuse = new Fuse(exercises, fuseOptions)
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const q = requestUrl.searchParams.get('q') || ''
   const results = fuse.search(q)
+  const data = results.map((result) => result.item)
 
+  console.log({results});
   return NextResponse.json({
-    data: results,
+    data,
   })
 }

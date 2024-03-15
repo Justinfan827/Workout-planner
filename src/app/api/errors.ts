@@ -2,8 +2,8 @@ import { ErrorBase, ErrorOptions } from '@/lib/errorBase'
 import { exhaustiveGuard } from '@/lib/utils'
 import { NextResponse } from 'next/server'
 
-export const BadRequestResponse = () =>
-  new NextResponse('Bad Request', { status: 400 })
+export const BadRequestResponse = (msg?:string) =>
+  new NextResponse(msg || 'Bad Request', { status: 400 })
 export const UnauthorizedResponse = () =>
   new NextResponse('Unauthorized', { status: 403 })
 export const InternalServerErrorResponse = (msg?: BodyInit) =>
